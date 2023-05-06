@@ -1,9 +1,14 @@
-import { Fetch } from "./Fetch.js";
+import { Fetch, Data } from "./Fetch.js";
 
 export class App {
+  alert: HTMLDivElement | null;
+  close: HTMLSpanElement | null;
+  input: HTMLInputElement | null;
+  arrow: HTMLDivElement | null;
+  table: HTMLTableSectionElement | null;
   constructor() {
     this.alert = document.querySelector(".alert");
-    this.close = this.alert.firstElementChild;
+    this.close = this.alert?.firstElementChild as HTMLElement;
     this.input = document.querySelector("input");
     this.arrow = document.querySelector(".arrow");
     this.table = document.querySelector("tbody");
@@ -11,16 +16,20 @@ export class App {
   init = async () => {
     //eventos
     //Cerrar la alerta en el botón con la X
-    this.close.addEventListener("click", () => {
-      this.alert.classList.add("dismissible");
+    if (this.close !== null) {
+      this.close.addEventListener("click", () => {
+        this.alert?.classList.add("dismissible");
     });
     //Impedir la recarga de la página y añadir una nueva tarea
-    this.input.addEventListener("keydown", (e) => {
-      if (e.code == "Enter" || e.code == "NumpadEnter") {
-        e.preventDefault();
-        addTask(input, id, text, alert);
-      }
-    });
+    if (this.input !== null) {
+      this.input.addEventListener("keydown", (e) => {
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+          e.preventDefault();
+          addTask(input, id, text, alert);
+        }
+      
+    })
+    };
     this.input.addEventListener("input", (e) => {
       if (this.input.value !== "" && !this.alert.classList.contains("dismissible")) {
         this.alert.classList.add("dismissible");
